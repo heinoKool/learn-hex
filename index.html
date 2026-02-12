@@ -511,7 +511,7 @@
         <h1 class="display-4 fw-bold mb-3">
           Willkommen im <span class="text-accent">Hex Lab</span>
         </h1>
-        <p class="lead text-muted mb-5" style="max-width: 700px">
+        <p class="lead text-muted mb-5">
           Daten kompakt darstellen. Computer arbeiten rein binär (<span class="mono">11110000...</span>), aber das ist
           für Menschen kaum lesbar. Hexadezimal ist der
           <strong>Standard-Werkzeugkasten für IT-Profis</strong> – in
@@ -555,13 +555,17 @@
                   <div>Ziffern 0-9 und A-F</div>
                 </li>
                 <li class="d-flex align-items-center gap-3">
-                  <span class="badge bg-surface-highlight border border-secondary text-dark rounded-pill">Nibble</span>
-                  <div>4 Bits = 1 Hex-Zeichen</div>
+                  <span class="badge bg-surface-highlight border border-secondary text-dark rounded-pill"
+                    data-bs-toggle="tooltip" title="Gruppe von 4 Bits (Ein Hex-Zeichen)">Nibble</span>
+                  <div>4 <span class="term" data-bs-toggle="tooltip"
+                      title="Kleinste Dateneinheit (0 oder 1)">Bits</span> = 1 Hex-Zeichen</div>
                 </li>
                 <li class="d-flex align-items-center gap-3">
-                  <span class="badge bg-surface-highlight border border-secondary text-dark rounded-pill">Byte</span>
+                  <span class="badge bg-surface-highlight border border-secondary text-dark rounded-pill"
+                    data-bs-toggle="tooltip" title="Gruppe von 8 Bits (Zwei Hex-Zeichen)">Byte</span>
                   <div>
-                    8 Bits = 2 Hex-Zeichen (z.B.
+                    8 <span class="term" data-bs-toggle="tooltip" title="Kleinste Dateneinheit (0 oder 1)">Bits</span> =
+                    2 Hex-Zeichen (z.B.
                     <span class="mono text-accent">FF</span>)
                   </div>
                 </li>
@@ -612,7 +616,9 @@
               <div class="display-box">
                 <h4 class="h6 text-accent mb-3">Warum Buchstaben?</h4>
                 <p class="small text-muted">
-                  In unserem Dezimalsystem haben wir nur Ziffern für 0-9. Für
+                  In unserem <span class="term" data-bs-toggle="tooltip"
+                    title="Unser alltägliches Zahlensystem (0-9)">Dezimalsystem</span> haben wir nur Ziffern für 0-9.
+                  Für
                   "10", "11"... brauchen wir zwei Stellen.
                   <br /><br />
                   Hex braucht aber <strong>ein einzelnes Zeichen</strong> für
@@ -652,7 +658,8 @@
           <h2 class="h3 mb-4">Hex ↔ Binär</h2>
           <p class="text-muted mb-5">
             Die Magie von Hex: Ein Hex-Zeichen entspricht
-            <strong>exakt</strong> 4 Bits. Kein mühsames Umrechnen. Profis
+            <strong>exakt</strong> 4 <span class="term" data-bs-toggle="tooltip"
+              title="Kleinste Dateneinheit (0 oder 1)">Bits</span>. Kein mühsames Umrechnen. Profis
             lernen diese 16 Muster (0000 bis 1111) auswendig – wie das kleine
             1x1.
           </p>
@@ -842,11 +849,12 @@
                 </div>
                 <div class="mt-4 pt-3 border-top border-secondary border-opacity-10">
                   <p class="small text-muted mb-2">
-                    <strong>Was ist das?</strong> Computermonitore mischen
-                    Farben aus <span class="text-danger">Rot</span>,
-                    <span class="text-success">Grün</span> und
-                    <span class="text-primary">Blau</span> (RGB). Jeder
-                    Farbkanal hat 256 Abstufungen (0 bis 255).
+                    <strong>Was ist das?</strong> Computermonitore mischen Farben aus <span
+                      class="text-danger">Rot</span>,
+                    <span class="text-success">Grün</span> und <span class="text-primary">Blau</span> (<span
+                      class="term" data-bs-toggle="tooltip" title="Lichtfarben: Rot, Grün, Blau">RGB</span>). Jeder
+                    Farbkanal
+                    hat 256 Abstufungen (0 bis 255).
                   </p>
                   <p class="small text-muted mb-0">
                     <strong>Warum Hex?</strong> Die Zahl 255 ist in Hex
@@ -867,9 +875,13 @@
                 <div id="macBytes" class="mono text-dark"></div>
                 <div class="mt-4 pt-3 border-top border-secondary border-opacity-10">
                   <p class="small text-muted mb-2">
-                    <strong>Was ist das?</strong> Eine weltweit eindeutige
-                    Hardware-Adresse für Netzwerkgeräte. Sie ist 48 Bit lang
-                    (6 Bytes).
+                    <strong>Was ist das?</strong> Eine weltweit eindeutige Hardware-Adresse (<span class="term"
+                      data-bs-toggle="tooltip" title="Physikalische Hardware-Adresse einer Netzwerkkarte">MAC</span>)
+                    für Netzwerkgeräte. Sie ist
+                    48
+                    <span class="term" data-bs-toggle="tooltip" title="Kleinste Dateneinheit (0 oder 1)">Bit</span> lang
+                    (6 <span class="term" data-bs-toggle="tooltip"
+                      title="Gruppe von 8 Bits (Zwei Hex-Zeichen)">Bytes</span>).
                   </p>
                   <p class="small text-muted mb-0">
                     <strong>Warum Hex?</strong> In Binär müssten wir 48 Nullen
@@ -1049,6 +1061,10 @@
     integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
     crossorigin="anonymous"></script>
   <script>
+    // Init Tooltips
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+    const tooltipList = [...tooltipTriggerList].map(el => new bootstrap.Tooltip(el));
+
     // Existing Logic maintained and adapted for new classes
     // console.log("Script starting...");
     const hexToDecInput = document.getElementById("hexToDecInput");
