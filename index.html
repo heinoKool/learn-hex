@@ -598,14 +598,11 @@
                 </div>
                 <div class="wheel-center">
                   <div class="small text-muted text-uppercase ls-1 mb-1">
-                    Wert
+                    Dezimal
                   </div>
-                  <div id="wheelHexDisplay" class="display-3 fw-bold text-accent mono" style="line-height: 1">
-                    0
-                  </div>
-                  <div id="wheelDecDisplay" class="text-muted small mt-1">
-                    dez: 0
-                  </div>
+                  <input id="wheelDecInput" type="number" min="0" max="15" value="0"
+                    class="form-control mono text-center fw-bold text-accent fs-1 border-0 bg-transparent"
+                    style="width: 80px; line-height: 1; padding: 0" />
                   <div id="wheelBinDisplay" class="badge bg-white border text-dark mt-2 mono">
                     0000
                   </div>
@@ -1247,15 +1244,14 @@
     // Interactive Chart Logic
     // Interactive Wheel Logic
     const hexWheel = document.getElementById("hexWheel");
-    const wheelHexDisplay = document.getElementById("wheelHexDisplay");
-    const wheelDecDisplay = document.getElementById("wheelDecDisplay");
+    const wheelDecInput = document.getElementById("wheelDecInput");
     const wheelBinDisplay = document.getElementById("wheelBinDisplay");
     const rotateWheelBtn = document.getElementById("rotateWheelBtn");
 
     let currentWheelIndex = 0;
 
     const initHexWheel = () => {
-      const radius = 130; // Distance from center
+      const radius = 130;
 
       for (let i = 0; i < 16; i++) {
         const el = document.createElement("div");
@@ -1263,7 +1259,6 @@
         el.textContent = hexSymbols[i];
         el.dataset.val = i;
 
-        // Position in circle (starting at top -90deg)
         const angle = (i / 16) * 2 * Math.PI - Math.PI / 2;
         const x = Math.cos(angle) * radius;
         const y = Math.sin(angle) * radius;
@@ -1278,7 +1273,6 @@
 
     const activateWheelSegment = (index) => {
       currentWheelIndex = index;
-      // Update visual active state
       document
         .querySelectorAll(".wheel-segment")
         .forEach((s) => s.classList.remove("active"));
@@ -1287,11 +1281,20 @@
       );
       if (activeEl) activeEl.classList.add("active");
 
-      // Update Center Display
-      wheelHexDisplay.textContent = hexSymbols[index];
-      wheelDecDisplay.textContent = "dez: " + index;
+      // Update center: only decimal input + binary badge
+      wheelDecInput.value = index;
       wheelBinDisplay.textContent = toBin4(index);
     };
+
+    // Interactive decimal input drives the wheel
+    if (wheelDecInput) {
+      wheelDecInput.addEventListener("input", () => {
+        let val = parseInt(wheelDecInput.value, 10);
+        if (isNaN(val) || val < 0) val = 0;
+        if (val > 15) val = 15;
+        activateWheelSegment(val);
+      });
+    }
 
     if (rotateWheelBtn) {
       rotateWheelBtn.addEventListener("click", () => {
