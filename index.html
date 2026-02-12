@@ -513,7 +513,6 @@
         </h1>
         <p class="lead text-muted mb-5">
           Daten kompakt darstellen. Computer arbeiten rein binär (<span class="mono">11110000...</span>), aber das ist
-          Daten kompakt darstellen. Computer arbeiten rein binär (<span class="mono">11110000...</span>), aber das ist
           für Menschen kaum lesbar. <br />
           <strong>Hex ist die Sprache der IT-Profis</strong>: Egal ob Netzwerk, Speicher oder Farben.
         </p>
@@ -1336,13 +1335,12 @@
           });
 
           col.innerHTML = `
-              <div class="pv-header">16<sup>${power}</sup></div>
-              <div class="pv-val">× ${factor}</div>
+              <div class="pv-header">16<sup>${power}</sup> = ${factor}</div>
             `;
           col.appendChild(select);
           col.insertAdjacentHTML(
             "beforeend",
-            `<div class="pv-result">= ${product}</div>`,
+            `<div class="pv-result">${hexSymbols[digitVal]} × ${factor} = ${product}</div>`,
           );
           pvChart.appendChild(col);
         });
@@ -1350,6 +1348,7 @@
       };
       render();
     };
+    if (pvChart) initPvChart();
 
     // Level 3 Visualizer
     const bitToggles = document.querySelectorAll(".bit-toggle");
