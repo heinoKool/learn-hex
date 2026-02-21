@@ -220,6 +220,21 @@
       color: var(--ink);
       border-radius: 12px;
       padding: 10px 12px;
+      -webkit-appearance: none; /* iOS fix */
+    }
+    
+    .form-control.is-invalid {
+      border-color: var(--danger);
+      background-color: #fff5f5;
+      animation: shake 0.3s;
+    }
+
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(5px); }
+      50% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+      100% { transform: translateX(0); }
     }
 
     .form-control:focus,
@@ -397,74 +412,6 @@
     details.display-box>summary::-webkit-details-marker {
       display: none;
     }
-
-    /* Hex Wheel */
-    .hex-wheel-container {
-      position: relative;
-      width: 300px;
-      max-width: 100%;
-      /* Responsive fix */
-      height: 300px;
-      margin: 0 auto;
-    }
-
-    .hex-wheel {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      border: 2px solid var(--surface-border);
-      position: relative;
-      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .wheel-segment {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 40px;
-      height: 40px;
-      margin-left: -20px;
-      margin-top: -20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      background: var(--surface);
-      border: 1px solid var(--surface-border);
-      font-weight: 700;
-      color: var(--ink-light);
-      cursor: pointer;
-      transition: all 0.2s;
-      font-family: var(--font-mono);
-    }
-
-    .wheel-segment:hover,
-    .wheel-segment.active {
-      background: var(--accent);
-      color: white;
-      transform: scale(1.2);
-      border-color: var(--accent);
-      box-shadow: 0 0 15px rgba(37, 99, 235, 0.4);
-      z-index: 10;
-    }
-
-    .wheel-center {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      text-align: center;
-      width: 140px;
-      height: 140px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      background: var(--surface-highlight);
-      border-radius: 50%;
-      border: 2px solid var(--accent-light);
-      box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.05);
-    }
   </style>
 </head>
 
@@ -578,71 +525,182 @@
       <section id="referenz" class="p-4 p-lg-5">
         <div class="level-badge">Kapitel 2</div>
         <div class="level-card">
-          <h2 class="h3 mb-5">Das Hexadezimalsystem</h2>
-
-          <!-- Part 1: Symbols -->
-          <h3 class="h5 text-accent mb-3">2.1 Die Symbole (0-F)</h3>
-          <p class="text-muted">
-            Wie bei der Uhr: Nach 9 kommt der Übertrag auf 10. Nach
-            <strong class="text-accent">F</strong> (15) ist die Stelle voll.
-            Es folgt <strong class="text-accent">0</strong> und ein Übertrag
-            auf die nächste Stelle (16er-Potenz).
+          
+          <!-- HINT: THE ALPHABET -->
+          <h2 class="h3 mb-4">Das Hex-Alphabet</h2>
+          <p class="text-muted mb-4">
+            Weil wir nach 9 keine einzelnen Ziffern mehr haben, nutzen wir Buchstaben von A bis F für die Werte 10 bis 15.
           </p>
 
-          <div class="row align-items-center mt-4 mb-5">
-            <div class="col-md-6 mb-4 mb-md-0">
-              <div class="hex-wheel-container">
-                <div class="hex-wheel" id="hexWheel">
-                  <!-- JS will populates this -->
-                </div>
-                <div class="wheel-center">
-                  <div class="small text-muted text-uppercase ls-1 mb-1">
-                    Dezimal
-                  </div>
-                  <input id="wheelDecInput" type="number" min="0" max="15" value="0"
-                    class="form-control mono text-center fw-bold text-accent fs-1 border-0 bg-transparent"
-                    style="width: 80px; line-height: 1; padding: 0" />
-                  <div id="wheelBinDisplay" class="badge bg-white border text-dark mt-2 mono">
-                    0000
-                  </div>
-                </div>
+          <div class="d-flex flex-wrap justify-content-center gap-3 mb-5">
+            <!-- 0-9 -->
+            <div class="d-flex flex-wrap gap-2 justify-content-center">
+              <div class="d-flex flex-column align-items-center justify-content-center p-2 bg-white rounded-3 border border-secondary border-opacity-10 shadow-sm" style="width: 56px; height: 68px;">
+                <span class="fw-bold fs-4 text-dark lh-1">0</span>
+                <span class="text-muted small border-top border-light mt-1 w-100 text-center pt-1" style="font-size:0.65rem">dez:0</span>
+              </div>
+              <div class="d-flex flex-column align-items-center justify-content-center p-2 bg-white rounded-3 border border-secondary border-opacity-10 shadow-sm" style="width: 56px; height: 68px;">
+                <span class="fw-bold fs-4 text-dark lh-1">1</span>
+                <span class="text-muted small border-top border-light mt-1 w-100 text-center pt-1" style="font-size:0.65rem">dez:1</span>
+              </div>
+              <div class="d-flex flex-column align-items-center justify-content-center p-2 bg-white rounded-3 border border-secondary border-opacity-10 shadow-sm" style="width: 56px; height: 68px;">
+                <span class="fw-bold fs-4 text-dark lh-1">2</span>
+                <span class="text-muted small border-top border-light mt-1 w-100 text-center pt-1" style="font-size:0.65rem">dez:2</span>
+              </div>
+              <div class="d-flex flex-column align-items-center justify-content-center p-2 bg-white rounded-3 border border-secondary border-opacity-10 shadow-sm" style="width: 56px; height: 68px;">
+                <span class="fw-bold fs-4 text-dark lh-1">3</span>
+                <span class="text-muted small border-top border-light mt-1 w-100 text-center pt-1" style="font-size:0.65rem">dez:3</span>
+              </div>
+              <div class="d-flex flex-column align-items-center justify-content-center p-2 bg-white rounded-3 border border-secondary border-opacity-10 shadow-sm" style="width: 56px; height: 68px;">
+                <span class="fw-bold fs-4 text-dark lh-1">4</span>
+                <span class="text-muted small border-top border-light mt-1 w-100 text-center pt-1" style="font-size:0.65rem">dez:4</span>
+              </div>
+              <div class="d-flex flex-column align-items-center justify-content-center p-2 bg-white rounded-3 border border-secondary border-opacity-10 shadow-sm" style="width: 56px; height: 68px;">
+                <span class="fw-bold fs-4 text-dark lh-1">5</span>
+                <span class="text-muted small border-top border-light mt-1 w-100 text-center pt-1" style="font-size:0.65rem">dez:5</span>
+              </div>
+              <div class="d-flex flex-column align-items-center justify-content-center p-2 bg-white rounded-3 border border-secondary border-opacity-10 shadow-sm" style="width: 56px; height: 68px;">
+                <span class="fw-bold fs-4 text-dark lh-1">6</span>
+                <span class="text-muted small border-top border-light mt-1 w-100 text-center pt-1" style="font-size:0.65rem">dez:6</span>
+              </div>
+              <div class="d-flex flex-column align-items-center justify-content-center p-2 bg-white rounded-3 border border-secondary border-opacity-10 shadow-sm" style="width: 56px; height: 68px;">
+                <span class="fw-bold fs-4 text-dark lh-1">7</span>
+                <span class="text-muted small border-top border-light mt-1 w-100 text-center pt-1" style="font-size:0.65rem">dez:7</span>
+              </div>
+              <div class="d-flex flex-column align-items-center justify-content-center p-2 bg-white rounded-3 border border-secondary border-opacity-10 shadow-sm" style="width: 56px; height: 68px;">
+                <span class="fw-bold fs-4 text-dark lh-1">8</span>
+                <span class="text-muted small border-top border-light mt-1 w-100 text-center pt-1" style="font-size:0.65rem">dez:8</span>
+              </div>
+              <div class="d-flex flex-column align-items-center justify-content-center p-2 bg-white rounded-3 border border-secondary border-opacity-10 shadow-sm" style="width: 56px; height: 68px;">
+                <span class="fw-bold fs-4 text-dark lh-1">9</span>
+                <span class="text-muted small border-top border-light mt-1 w-100 text-center pt-1" style="font-size:0.65rem">dez:9</span>
               </div>
             </div>
-            <div class="col-md-6">
-              <div class="display-box">
-                <h4 class="h6 text-accent mb-3">Warum Buchstaben?</h4>
-                <p class="small text-muted">
-                  In unserem <span class="term" data-bs-toggle="tooltip"
-                    title="Unser alltägliches Zahlensystem (0-9)">Dezimalsystem</span> haben wir nur Ziffern für 0-9.
-                  Für
-                  "10", "11"... brauchen wir zwei Stellen.
-                  <br /><br />
-                  Hex braucht aber <strong>ein einzelnes Zeichen</strong> für
-                  diese Werte. Deshalb borgen wir uns A-F.
-                </p>
+
+            <!-- A-F -->
+            <div class="d-flex flex-wrap gap-2 justify-content-center">
+              <div class="d-flex flex-column align-items-center justify-content-center p-2 bg-surface-highlight rounded-3 border border-accent border-opacity-50 shadow-sm" style="width: 56px; height: 68px;">
+                <span class="fw-bold fs-4 text-accent lh-1">A</span>
+                <span class="text-accent small opacity-75 border-top border-accent border-opacity-25 mt-1 w-100 text-center pt-1" style="font-size:0.65rem">dez:10</span>
               </div>
-              <div class="mt-3 text-center">
-                <button class="btn btn-outline-primary btn-sm rounded-pill px-4" id="rotateWheelBtn">
-                  ⟳ Rad drehen
-                </button>
+              <div class="d-flex flex-column align-items-center justify-content-center p-2 bg-surface-highlight rounded-3 border border-accent border-opacity-50 shadow-sm" style="width: 56px; height: 68px;">
+                <span class="fw-bold fs-4 text-accent lh-1">B</span>
+                <span class="text-accent small opacity-75 border-top border-accent border-opacity-25 mt-1 w-100 text-center pt-1" style="font-size:0.65rem">dez:11</span>
+              </div>
+              <div class="d-flex flex-column align-items-center justify-content-center p-2 bg-surface-highlight rounded-3 border border-accent border-opacity-50 shadow-sm" style="width: 56px; height: 68px;">
+                <span class="fw-bold fs-4 text-accent lh-1">C</span>
+                <span class="text-accent small opacity-75 border-top border-accent border-opacity-25 mt-1 w-100 text-center pt-1" style="font-size:0.65rem">dez:12</span>
+              </div>
+              <div class="d-flex flex-column align-items-center justify-content-center p-2 bg-surface-highlight rounded-3 border border-accent border-opacity-50 shadow-sm" style="width: 56px; height: 68px;">
+                <span class="fw-bold fs-4 text-accent lh-1">D</span>
+                <span class="text-accent small opacity-75 border-top border-accent border-opacity-25 mt-1 w-100 text-center pt-1" style="font-size:0.65rem">dez:13</span>
+              </div>
+              <div class="d-flex flex-column align-items-center justify-content-center p-2 bg-surface-highlight rounded-3 border border-accent border-opacity-50 shadow-sm" style="width: 56px; height: 68px;">
+                <span class="fw-bold fs-4 text-accent lh-1">E</span>
+                <span class="text-accent small opacity-75 border-top border-accent border-opacity-25 mt-1 w-100 text-center pt-1" style="font-size:0.65rem">dez:14</span>
+              </div>
+              <div class="d-flex flex-column align-items-center justify-content-center p-2 bg-surface-highlight rounded-3 border border-accent border-opacity-50 shadow-sm" style="width: 56px; height: 68px;">
+                <span class="fw-bold fs-4 text-accent lh-1">F</span>
+                <span class="text-accent small opacity-75 border-top border-accent border-opacity-25 mt-1 w-100 text-center pt-1" style="font-size:0.65rem">dez:15</span>
               </div>
             </div>
           </div>
+          
+          <hr class="border-secondary border-opacity-10 my-5">
 
-          <hr class="border-secondary border-opacity-25 my-5" />
+          <div class="d-flex align-items-center gap-2 mb-4">
+            <!-- Icon replacement (Settings/CPU feel) -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              class="text-secondary">
+              <circle cx="12" cy="12" r="3"></circle>
+              <path
+                d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 5 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
+              </path>
+            </svg>
+            <h2 class="h3 mb-0">Der 8-Bit Konverter</h2>
+          </div>
 
-          <!-- Part 2: Machine -->
-          <h3 class="h5 text-accent mb-3">2.2 Die Stellenwert-Maschine</h3>
-          <p class="text-muted mb-4">
-            Jede Position ist eine Potenz von 16 (1, 16, 256, 4096...).
-            Konfiguriere die Speicherstellen:
+          <p class="text-muted mb-5">
+            Computer denken in Bytes (8 Bit). Hexadezimal teilt diese 8 Bit in zwei 4er-Gruppen (Nibbles).
+            Klicke auf die Bits oder nutze den Slider um zu sehen, wie aus 8 Bits zwei Hex-Ziffern werden.
           </p>
 
-          <div class="pv-chart" id="pvChart"></div>
+          <!-- The Converter UI -->
+          <div class="bg-surface-highlight rounded-4 p-4 p-md-5 border border-secondary border-opacity-10">
 
-          <div class="pv-total">
-            <span class="pv-total-label">Dezimaler Gesamtwert</span>
-            <div class="pv-total-value" id="pvTotal">0</div>
+            <div class="row g-5 align-items-center justify-content-center text-center">
+
+              <!-- BINARY SECTION -->
+              <div class="col-12 col-md-auto">
+                <div class="small text-muted fw-bold text-uppercase mb-3 ls-1">Binär (Basis 2)</div>
+                <div class="d-flex justify-content-center gap-3">
+                  <!-- High Nibble (Bits 4-7) -->
+                  <div class="d-flex gap-1 p-2 rounded-3 bg-white border border-secondary border-opacity-10">
+                    <button class="bit-switch btn btn-sm p-0 d-flex align-items-center justify-content-center fw-bold mono"
+                      data-bit="7" style="width: 32px; height: 48px; font-size: 1.2rem; color: #6366f1;">0</button>
+                    <button class="bit-switch btn btn-sm p-0 d-flex align-items-center justify-content-center fw-bold mono"
+                      data-bit="6" style="width: 32px; height: 48px; font-size: 1.2rem; color: #6366f1;">0</button>
+                    <button class="bit-switch btn btn-sm p-0 d-flex align-items-center justify-content-center fw-bold mono"
+                      data-bit="5" style="width: 32px; height: 48px; font-size: 1.2rem; color: #6366f1;">0</button>
+                    <button class="bit-switch btn btn-sm p-0 d-flex align-items-center justify-content-center fw-bold mono"
+                      data-bit="4" style="width: 32px; height: 48px; font-size: 1.2rem; color: #6366f1;">0</button>
+                  </div>
+                  <!-- Low Nibble (Bits 0-3) -->
+                  <div class="d-flex gap-1 p-2 rounded-3 bg-white border border-secondary border-opacity-10">
+                    <button class="bit-switch btn btn-sm p-0 d-flex align-items-center justify-content-center fw-bold mono"
+                      data-bit="3" style="width: 32px; height: 48px; font-size: 1.2rem; color: #ec4899;">0</button>
+                    <button class="bit-switch btn btn-sm p-0 d-flex align-items-center justify-content-center fw-bold mono"
+                      data-bit="2" style="width: 32px; height: 48px; font-size: 1.2rem; color: #ec4899;">0</button>
+                    <button class="bit-switch btn btn-sm p-0 d-flex align-items-center justify-content-center fw-bold mono"
+                      data-bit="1" style="width: 32px; height: 48px; font-size: 1.2rem; color: #ec4899;">0</button>
+                    <button class="bit-switch btn btn-sm p-0 d-flex align-items-center justify-content-center fw-bold mono"
+                      data-bit="0" style="width: 32px; height: 48px; font-size: 1.2rem; color: #ec4899;">0</button>
+                  </div>
+                </div>
+                <div class="d-flex justify-content-between mt-2 px-1 small">
+                  <span style="color: #6366f1; font-weight: 600;">High Nibble</span>
+                  <span style="color: #ec4899; font-weight: 600;">Low Nibble</span>
+                </div>
+              </div>
+
+              <!-- ARROW (Hidden on mobile) -->
+              <div class="col-md-auto d-none d-md-block">
+                <div class="text-muted opacity-50 display-6">→</div>
+              </div>
+
+              <!-- HEX SECTION -->
+              <div class="col-6 col-md-auto">
+                <div class="small text-muted fw-bold text-uppercase mb-3 ls-1">Hex (Basis 16)</div>
+                <div
+                  class="bg-white rounded-4 p-3 border border-secondary border-opacity-10 shadow-sm d-inline-flex justify-content-center align-items-center gap-1 mono display-4 fw-bold">
+                  <span id="convHexHigh" style="color: #6366f1;">0</span>
+                  <span id="convHexLow" style="color: #ec4899;">0</span>
+                </div>
+              </div>
+
+              <!-- DEC SECTION -->
+              <div class="col-6 col-md-auto">
+                <div class="small text-muted fw-bold text-uppercase mb-3 ls-1">Dezimal</div>
+                <div id="convDec"
+                  class="bg-white rounded-4 p-3 border border-secondary border-opacity-10 shadow-sm d-inline-block mono display-4 fw-bold text-dark"
+                  style="min-width: 120px;">
+                  0
+                </div>
+              </div>
+
+            </div>
+
+            <!-- SLIDER -->
+            <div class="mt-5 px-lg-5">
+              <label class="d-flex justify-content-between text-muted mono small mb-2">
+                <span>0</span>
+                <span>Wert anpassen</span>
+                <span>255</span>
+              </label>
+              <input type="range" class="form-range" min="0" max="255" value="0" id="convSlider">
+            </div>
+
           </div>
         </div>
       </section>
@@ -665,8 +723,9 @@
             class="nibble-visualizer p-4 bg-surface-highlight rounded-4 border border-secondary border-opacity-10 mb-4">
             <div class="row align-items-center text-center">
               <div class="col-md-7">
-                <div class="small text-muted text-uppercase mb-3 ls-1">
-                  Binary Input (1 Nibble)
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div class="small text-muted text-uppercase ls-1">Binary Input (1 Nibble)</div>
+                    <button id="btnRandNibble" class="btn btn-sm btn-outline-secondary py-0" style="font-size: 0.75rem;">Zufall</button>
                 </div>
                 <div class="d-flex justify-content-center gap-2">
                   <button class="bit-toggle bit-btn d-flex align-items-center justify-content-center" data-val="8">
@@ -713,7 +772,7 @@
                   <strong class="text-accent">Hex → Binär</strong>
                 </div>
                 <label class="small text-muted mb-1">Hex Input</label>
-                <input id="hexToBinInput" class="form-control mono fs-5 mb-3" type="text" value="2F9" />
+                <input id="hexToBinInput" class="form-control mono fs-5 mb-3" type="text" value="2F9" autocapitalize="characters" autocomplete="off" spellcheck="false" />
                 <div class="small text-muted mb-1">Binär Output</div>
                 <input id="hexToBinOutput" class="form-control mono fs-5 text-accent border-0"
                   style="background: transparent" type="text" readonly />
@@ -726,7 +785,7 @@
                   <strong class="text-accent">Binär → Hex</strong>
                 </div>
                 <label class="small text-muted mb-1">Binär Input</label>
-                <input id="binToHexInput" class="form-control mono fs-5 mb-3" type="text" value="0010 1111 1001" />
+                <input id="binToHexInput" class="form-control mono fs-5 mb-3" type="text" value="0010 1111 1001" autocomplete="off" spellcheck="false" />
                 <div class="small text-muted mb-1">Hex Output</div>
                 <input id="binToHexOutput" class="form-control mono fs-5 text-accent border-0"
                   style="background: transparent" type="text" readonly />
@@ -748,17 +807,36 @@
           <p class="text-muted mb-4">
             Rechne von Hand nach: <span class="mono">Ziffer · 16^n</span>
           </p>
+          <div class="d-flex gap-2 mb-3">
+              <button id="btnTrainerHex" class="btn btn-sm btn-outline-primary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="me-1"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+                Zufalls-Aufgabe
+              </button>
+              <button id="btnTrainerReveal" class="btn btn-sm btn-outline-secondary" disabled>Lösung anzeigen</button>
+          </div>
           <div class="row g-3 mb-5">
             <div class="col-md-6">
               <label class="small text-muted">Hex</label>
-              <input id="hexToDecInput" class="form-control mono fs-4" type="text" value="1A" />
+              <input id="hexToDecInput" class="form-control mono fs-4" type="text" value="1A" autocapitalize="characters" autocomplete="off" spellcheck="false" />
             </div>
             <div class="col-md-6">
               <label class="small text-muted">Dezimal</label>
               <input id="hexToDecOutput" class="form-control mono fs-4 text-accent" type="text" readonly />
             </div>
             <div class="col-12">
-              <div id="hexToDecSteps" class="mt-2 p-3 bg-surface-highlight rounded text-mono small text-muted"></div>
+              <!-- Collapsible Visualizer -->
+              <div class="mb-3">
+                  <button class="btn btn-sm btn-outline-secondary d-flex align-items-center gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#hexDecVisualizer" aria-expanded="false" aria-controls="hexDecVisualizer">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                    Erklärung anzeigen (Visualisierung)
+                  </button>
+              </div>
+              <div class="collapse" id="hexDecVisualizer">
+                 <div id="hexToDecSteps" class="mt-4"></div>
+              </div>
+
+               <!-- Original Simple Steps container (restored concept) -->
+               <div id="hexToDecSimpleSteps" class="mt-2 p-3 bg-surface-highlight rounded text-mono small text-muted"></div>
             </div>
           </div>
 
@@ -776,7 +854,7 @@
             <div class="col-md-5">
               <div class="display-box h-100">
                 <label class="small text-muted mb-2">Dezimal Input</label>
-                <input id="decToHexInput" class="form-control mono fs-4 mb-3" type="number" value="47" />
+                <input id="decToHexInput" class="form-control mono fs-4 mb-3" type="number" value="47" inputmode="numeric" />
               </div>
             </div>
             <div class="col-md-2 text-center align-self-center fs-3 text-muted">
@@ -809,57 +887,76 @@
           <div class="row g-4">
             <div class="col-lg-6">
               <div class="display-box h-100">
-                <h4 class="h6 text-accent text-uppercase mb-3">Farbcodes</h4>
-                <div class="d-flex gap-3 mb-3">
-                  <input id="colorInput" class="form-control mono" type="text" value="#22d3ee" />
-                  <input id="colorPicker" class="form-control form-control-color bg-white border-secondary" type="color"
-                    value="#22d3ee" />
+                <div class="d-flex align-items-center gap-2 mb-3">
+                  <!-- Palette Icon -->
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted"><circle cx="13.5" cy="6.5" r=".5"></circle><circle cx="17.5" cy="10.5" r=".5"></circle><circle cx="8.5" cy="7.5" r=".5"></circle><circle cx="6.5" cy="12.5" r=".5"></circle><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"></path></svg>
+                  <h4 class="h6 text-muted text-uppercase mb-0">Praxis: Web-Farben</h4>
                 </div>
-                <div id="colorSwatch" class="w-100 rounded-3 mb-3" style="
-                      height: 100px;
-                      background: #22d3ee;
-                      box-shadow: 0 0 20px rgba(34, 211, 238, 0.4);
-                    "></div>
-                <div class="row g-2 text-center">
-                  <div class="col-4">
-                    <div class="p-2 bg-surface-highlight border border-secondary border-opacity-10 rounded">
-                      <div class="small text-danger fw-bold mb-1">Rot</div>
-                      <div class="mono fs-5" id="valR_Hex">00</div>
-                      <div class="small text-muted" id="valR_Dec">0</div>
+                
+                <p class="small text-muted mb-4">
+                  Farben im Web werden fast immer hexadezimal angegeben. 6 Zeichen = 3 Bytes für Rot, Grün und Blau (RGB).
+                </p>
+
+                <div class="d-flex flex-column gap-4">
+                  <!-- Header: Swatch + Hex Code -->
+                  <div class="d-flex align-items-center gap-4">
+                    <div id="colorSwatch" class="rounded-4 shadow-sm border border-secondary border-opacity-10" 
+                         style="width: 96px; height: 96px; background-color: #3b82f6; transition: background-color 0.2s;">
+                    </div>
+                    <div>
+                      <div class="mono display-5 fw-bold text-dark mb-1" id="hexDisplay">#3B82F6</div>
+                      <div class="d-flex gap-3 text-muted mono small">
+                        <span>R: <span id="valR_Dec">59</span></span>
+                        <span>G: <span id="valG_Dec">130</span></span>
+                        <span>B: <span id="valB_Dec">246</span></span>
+                      </div>
                     </div>
                   </div>
-                  <div class="col-4">
-                    <div class="p-2 bg-surface-highlight border border-secondary border-opacity-10 rounded">
-                      <div class="small text-success fw-bold mb-1">Grün</div>
-                      <div class="mono fs-5" id="valG_Hex">00</div>
-                      <div class="small text-muted" id="valG_Dec">0</div>
+
+                  <!-- Sliders -->
+                  <div class="d-flex flex-column gap-3">
+                    <!-- Red -->
+                    <div>
+                      <div class="d-flex justify-content-between mono small mb-1">
+                        <span class="text-danger fw-bold">Rot</span>
+                        <span class="text-danger" id="valR_Hex">3B</span>
+                      </div>
+                      <input type="range" class="form-range" id="sliderR" min="0" max="255" value="59" style="accent-color: #ef4444;">
                     </div>
-                  </div>
-                  <div class="col-4">
-                    <div class="p-2 bg-surface-highlight border border-secondary border-opacity-10 rounded">
-                      <div class="small text-primary fw-bold mb-1">Blau</div>
-                      <div class="mono fs-5" id="valB_Hex">00</div>
-                      <div class="small text-muted" id="valB_Dec">0</div>
+                    <!-- Green -->
+                    <div>
+                      <div class="d-flex justify-content-between mono small mb-1">
+                        <span class="text-success fw-bold">Grün</span>
+                        <span class="text-success" id="valG_Hex">82</span>
+                      </div>
+                      <input type="range" class="form-range" id="sliderG" min="0" max="255" value="130" style="accent-color: #22c55e;">
+                    </div>
+                    <!-- Blue -->
+                    <div>
+                      <div class="d-flex justify-content-between mono small mb-1">
+                        <span class="text-primary fw-bold">Blau</span>
+                        <span class="text-primary" id="valB_Hex">F6</span>
+                      </div>
+                      <input type="range" class="form-range" id="sliderB" min="0" max="255" value="246" style="accent-color: #3b82f6;">
                     </div>
                   </div>
                 </div>
+
+                <!-- Hidden inputs for compatibility with existing logic if needed, or we just update them invisibly -->
+                <input type="hidden" id="colorInput" value="3B82F6">
+                <input type="hidden" id="colorPicker" value="#3B82F6">
+
                 <div class="mt-4 pt-3 border-top border-secondary border-opacity-10">
                   <p class="small text-muted mb-2">
-                    <strong>Was ist das?</strong> Computermonitore mischen Farben aus <span
-                      class="text-danger">Rot</span>,
-                    <span class="text-success">Grün</span> und <span class="text-primary">Blau</span> (<span
-                      class="term" data-bs-toggle="tooltip" title="Lichtfarben: Rot, Grün, Blau">RGB</span>). Jeder
-                    Farbkanal
-                    hat 256 Abstufungen (0 bis 255).
+                    <strong>Was ist das?</strong> Bildschirme nutzen <span class="term" data-bs-toggle="tooltip" title="Startet bei Schwarz. Farben entstehen durch Hinzufügen von Licht (anders als bei Tuschkästen).">additive Farbmischung</span> aus <span class="text-danger fw-bold">Rot</span>, <span class="text-success fw-bold">Grün</span> und <span class="text-primary fw-bold">Blau</span> (RGB). Jeder Kanal hat 8 Bit Tiefe, also 256 Abstufungen (0-255).
                   </p>
                   <p class="small text-muted mb-0">
-                    <strong>Warum Hex?</strong> Die Zahl 255 ist in Hex
-                    <code>FF</code>. Das ist kompakt! Ein Farbcode wie
-                    <code>#22d3ee</code> fasst drei Werte (34, 211, 238) kurz
-                    und bündig zusammen.
+                    <strong>Warum Hex?</strong> Die höchste Stufe 255 ist in Hex zweistellig: <span class="mono fw-bold text-dark">FF</span>. 
+                    Ein Code wie <span class="mono bg-surface-highlight px-1 rounded">#22D3EE</span> fasst 3 Bytes (RGB) kompakt zusammen.
                   </p>
                 </div>
               </div>
+
             </div>
             <div class="col-lg-6">
               <div class="display-box h-100">
@@ -1056,6 +1153,8 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
     crossorigin="anonymous"></script>
+  <!-- Confetti for Quiz -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script>
     // Init Tooltips
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
@@ -1075,11 +1174,56 @@
     const hexTable = document.getElementById("hexTable");
     const macInput = document.getElementById("macInput");
     const macBytes = document.getElementById("macBytes");
-    const colorInput = document.getElementById("colorInput");
-    const colorPicker = document.getElementById("colorPicker");
+
+    // NEW COLOR LOGIC (Slider-based)
     const colorSwatch = document.getElementById("colorSwatch");
-    // colorRgb removed
+    const sliderR = document.getElementById("sliderR");
+    const sliderG = document.getElementById("sliderG");
+    const sliderB = document.getElementById("sliderB");
+    
+    // Displays
+    const valR_Dec = document.getElementById("valR_Dec");
+    const valG_Dec = document.getElementById("valG_Dec");
+    const valB_Dec = document.getElementById("valB_Dec");
+    const valR_Hex = document.getElementById("valR_Hex");
+    const valG_Hex = document.getElementById("valG_Hex");
+    const valB_Hex = document.getElementById("valB_Hex");
+    const hexDisplay = document.getElementById("hexDisplay");
+
+    const updateColorFromSliders = () => {
+       const r = parseInt(sliderR.value);
+       const g = parseInt(sliderG.value);
+       const b = parseInt(sliderB.value);
+
+       // Update Decimal labels
+       if(valR_Dec) valR_Dec.textContent = r;
+       if(valG_Dec) valG_Dec.textContent = g;
+       if(valB_Dec) valB_Dec.textContent = b;
+
+       // Update Hex labels
+       const rHex = r.toString(16).toUpperCase().padStart(2, '0');
+       const gHex = g.toString(16).toUpperCase().padStart(2, '0');
+       const bHex = b.toString(16).toUpperCase().padStart(2, '0');
+
+       if(valR_Hex) valR_Hex.textContent = rHex;
+       if(valG_Hex) valG_Hex.textContent = gHex;
+       if(valB_Hex) valB_Hex.textContent = bHex;
+
+       // Combined Hex
+       const fullHex = `#${rHex}${gHex}${bHex}`;
+       if(hexDisplay) hexDisplay.textContent = fullHex;
+       if(colorSwatch) colorSwatch.style.backgroundColor = fullHex;
+    };
+
+    if (sliderR && sliderG && sliderB) {
+        sliderR.addEventListener("input", updateColorFromSliders);
+        sliderG.addEventListener("input", updateColorFromSliders);
+        sliderB.addEventListener("input", updateColorFromSliders);
+        updateColorFromSliders(); // Init
+    }
+
     const pvChart = document.getElementById("pvChart");
+
     const pvTotal = document.getElementById("pvTotal");
 
     const hexSymbols = "0123456789ABCDEF";
@@ -1125,7 +1269,15 @@
     };
 
     const syncFromHexToBin = () => {
-      const clean = sanitizeHex(hexToBinInput.value);
+      const raw = hexToBinInput.value;
+      const clean = sanitizeHex(raw);
+      
+      // UX: Feedback for invalid chars
+      if (raw.toUpperCase() !== clean && raw !== "") {
+          hexToBinInput.classList.add("is-invalid");
+          setTimeout(() => hexToBinInput.classList.remove("is-invalid"), 500);
+      }
+      
       hexToBinInput.value = clean;
       if (!clean) {
         hexToBinOutput.value = "";
@@ -1141,7 +1293,15 @@
     };
 
     const syncFromBinToHex = () => {
-      const clean = sanitizeBin(binToHexInput.value);
+      const raw = binToHexInput.value;
+      const clean = sanitizeBin(raw);
+      
+      // UX: Feedback for invalid chars
+      if (raw !== clean && raw.replace(/\s/g,'') !== clean) {
+          binToHexInput.classList.add("is-invalid");
+          setTimeout(() => binToHexInput.classList.remove("is-invalid"), 500);
+      }
+
       if (!clean) {
         binToHexInput.value = "";
         binToHexOutput.value = "";
@@ -1157,28 +1317,79 @@
       renderBinToHexSteps(clean, padded, padLength);
     };
 
+    const hexToDecSimpleSteps = document.getElementById("hexToDecSimpleSteps");
     const renderHexToDecSteps = (hex) => {
-      if (!hex) return;
+      // 0. Clean both containers
+      if (!hex) {
+          hexToDecSteps.innerHTML = "";
+          if(hexToDecSimpleSteps) hexToDecSimpleSteps.innerHTML = "";
+          return;
+      }
+      
       const digits = hex.split("");
-      const steps = digits.map((digit, index) => {
-        const power = digits.length - 1 - index;
-        const factor = 16 ** power;
-        const value = hexSymbols.indexOf(digit);
-        return `
-             <div class="d-flex justify-content-between mb-1">
-                <span><span class="text-accent fw-bold">${digit}</span> (${value}) × 16<sup>${power}</sup></span>
-                <span class="mono text-dark">= ${value * factor}</span>
-             </div>
-           `;
+      const len = digits.length;
+      let stepsHtml = '';
+      let calculationParts = [];
+      let total = 0;
+      let simpleSteps = [];
+
+      // 1. Build Visual Boxes
+      stepsHtml += '<div class="d-flex flex-wrap gap-2 justify-content-center mb-4">';
+      
+      digits.forEach((digit, index) => {
+        const position = len - 1 - index; // Power of 16
+        const value = parseInt(digit, 16);
+        const factor = Math.pow(16, position);
+        const subTotal = value * factor;
+        
+        total += subTotal;
+        calculationParts.push(subTotal);
+
+        stepsHtml += `
+          <div class="d-flex flex-column align-items-center p-3 bg-white rounded-3 border border-secondary border-opacity-10 shadow-sm" style="min-width: 80px;">
+            <div class="small text-muted mb-1 font-monospace">16<sup>${position}</sup></div>
+            <div class="display-6 fw-bold text-accent mb-2 font-monospace">${digit}</div>
+            <div class="small text-muted border-top border-secondary border-opacity-10 w-100 pt-2 mt-1 text-center">
+                ${value} × ${factor}
+            </div>
+            <div class="fw-bold text-dark mt-1">= ${subTotal}</div>
+          </div>
+        `;
+        
+        // Simple line for original view
+        simpleSteps.push(`${digit} (${value}) × 16^${position} = ${subTotal}`);
       });
-      const total = parseInt(hex, 16);
-      hexToDecSteps.innerHTML =
-        steps.join("") +
-        `<div class="border-top border-secondary mt-2 pt-2 text-end text-accent fw-bold fs-5">Summe: ${total}</div>`;
+      
+      stepsHtml += '</div>';
+
+      // 2. Build Calculation Formula
+      stepsHtml += `
+        <div class="text-center p-3 bg-surface-secondary rounded-3 border border-secondary border-opacity-10">
+          <div class="small text-muted mb-2 text-uppercase ls-1">Berechnung</div>
+          <div class="font-monospace fs-5">
+            ${calculationParts.join(" + ")} = <strong class="text-accent">${total}</strong>
+          </div>
+        </div>
+      `;
+
+      hexToDecSteps.innerHTML = stepsHtml;
+      
+      // 3. Render Simple Steps (Original Look)
+      if (hexToDecSimpleSteps) {
+          hexToDecSimpleSteps.innerHTML = simpleSteps.map(s => `<div>${s}</div>`).join("") + 
+          `<div class="border-top border-secondary mt-2 pt-2 text-end text-accent fw-bold">Summe: ${total}</div>`;
+      }
     };
 
     const syncFromHexToDec = () => {
-      const clean = sanitizeHex(hexToDecInput.value);
+      const raw = hexToDecInput.value;
+      const clean = sanitizeHex(raw);
+      
+      if (raw.toUpperCase() !== clean && raw !== "") {
+          hexToDecInput.classList.add("is-invalid");
+          setTimeout(() => hexToDecInput.classList.remove("is-invalid"), 500);
+      }
+
       hexToDecInput.value = clean;
       const value = parseInt(clean || "0", 16);
       hexToDecOutput.value = String(value);
@@ -1193,7 +1404,17 @@
         .slice(0, 12);
     const formatMac = (v) => (v.match(/.{1,2}/g) || []).join(":");
     const updateMac = () => {
-      const clean = sanitizeMac(macInput.value);
+      const raw = macInput.value;
+      
+      // UX: Feedback only if chars are invalid (ignore colons)
+      const rawNoColons = raw.replace(/:/g, "").toUpperCase();
+      const clean = sanitizeMac(raw);
+      
+      if (rawNoColons.length > 0 && rawNoColons !== clean.slice(0, rawNoColons.length)) {
+           macInput.classList.add("is-invalid");
+           setTimeout(() => macInput.classList.remove("is-invalid"), 500);
+      }
+      
       macInput.value = formatMac(clean);
       const pairs = clean.match(/.{1,2}/g) || [];
       if (pairs.length > 0) {
@@ -1203,152 +1424,67 @@
       }
     };
 
-    // Color logic
-    const normalizeHexColor = (v) => {
-      let c = v.toUpperCase().replace(/[^0-9A-F]/g, "");
-      if (c.length === 3)
-        c = c
-          .split("")
-          .map((x) => x + x)
-          .join("");
-      return "#" + c.slice(0, 6).padEnd(6, "0");
-    };
-    const updateColor = (val, source) => {
-      const norm = normalizeHexColor(val);
+    // ---------------------------------------------------------
+    // LEVEL 2: 8-BIT CONVERTER LOGIC
+    // ---------------------------------------------------------
+    const convSlider = document.getElementById("convSlider");
+    const bitSwitches = document.querySelectorAll(".bit-switch");
+    const convHexHigh = document.getElementById("convHexHigh");
+    const convHexLow = document.getElementById("convHexLow");
+    const convDec = document.getElementById("convDec");
 
-      if (source !== "text") {
-        colorInput.value = norm;
-      }
+    // State
+    let converterValue = 0;
 
-      colorPicker.value = norm.toLowerCase();
-      colorSwatch.style.background = norm;
-      colorSwatch.style.boxShadow = `0 0 20px ${norm}66`;
+    // Helper: Update UI from current value
+    const updateConverterUI = () => {
+      // 1. Synchronize Slider
+      if (convSlider) convSlider.value = converterValue;
 
-      const rHex = norm.slice(1, 3);
-      const gHex = norm.slice(3, 5);
-      const bHex = norm.slice(5, 7);
+      // 2. Synchronize Bits (Binary)
+      bitSwitches.forEach((btn) => {
+        const bitIndex = parseInt(btn.dataset.bit);
+        const isSet = (converterValue >> bitIndex) & 1;
+        btn.textContent = isSet;
+        
+        // Visual toggle style
+        if (isSet) {
+           btn.style.background = btn.dataset.bit >= 4 ? "rgba(37, 99, 235, 0.9)" : "rgba(236, 72, 153, 0.9)";
+           btn.style.color = "#fff";
+        } else {
+           btn.style.background = "transparent";
+           btn.style.color = btn.dataset.bit >= 4 ? "#6366f1" : "#ec4899";
+        }
+      });
 
-      const r = parseInt(rHex, 16);
-      const g = parseInt(gHex, 16);
-      const b = parseInt(bHex, 16);
+      // 3. Synchronize Hex (Nibbles)
+      const highNibble = (converterValue >> 4) & 0xF;
+      const lowNibble = converterValue & 0xF;
+      
+      if (convHexHigh) convHexHigh.textContent = hexSymbols[highNibble];
+      if (convHexLow) convHexLow.textContent = hexSymbols[lowNibble];
 
-      document.getElementById("valR_Hex").textContent = rHex;
-      document.getElementById("valR_Dec").textContent = r;
-      document.getElementById("valG_Hex").textContent = gHex;
-      document.getElementById("valG_Dec").textContent = g;
-      document.getElementById("valB_Hex").textContent = bHex;
-      document.getElementById("valB_Dec").textContent = b;
-    };
-
-    // Interactive Chart Logic
-    // Interactive Wheel Logic
-    const hexWheel = document.getElementById("hexWheel");
-    const wheelDecInput = document.getElementById("wheelDecInput");
-    const wheelBinDisplay = document.getElementById("wheelBinDisplay");
-    const rotateWheelBtn = document.getElementById("rotateWheelBtn");
-
-    let currentWheelIndex = 0;
-
-    const initHexWheel = () => {
-      const radius = 130;
-
-      for (let i = 0; i < 16; i++) {
-        const el = document.createElement("div");
-        el.className = "wheel-segment";
-        el.textContent = hexSymbols[i];
-        el.dataset.val = i;
-
-        const angle = (i / 16) * 2 * Math.PI - Math.PI / 2;
-        const x = Math.cos(angle) * radius;
-        const y = Math.sin(angle) * radius;
-
-        el.style.transform = `translate(${x}px, ${y}px)`;
-
-        el.addEventListener("click", () => activateWheelSegment(i));
-        hexWheel.appendChild(el);
-      }
-      activateWheelSegment(0);
+      // 4. Synchronize Decimal
+      if (convDec) convDec.textContent = converterValue;
     };
 
-    const activateWheelSegment = (index) => {
-      currentWheelIndex = index;
-      document
-        .querySelectorAll(".wheel-segment")
-        .forEach((s) => s.classList.remove("active"));
-      const activeEl = document.querySelector(
-        `.wheel-segment[data-val="${index}"]`,
-      );
-      if (activeEl) activeEl.classList.add("active");
-
-      // Update center: only decimal input + binary badge
-      wheelDecInput.value = index;
-      wheelBinDisplay.textContent = toBin4(index);
-    };
-
-    // Interactive decimal input drives the wheel
-    if (wheelDecInput) {
-      wheelDecInput.addEventListener("input", () => {
-        let val = parseInt(wheelDecInput.value, 10);
-        if (isNaN(val) || val < 0) val = 0;
-        if (val > 15) val = 15;
-        activateWheelSegment(val);
+    // Event Listeners
+    if (convSlider) {
+      convSlider.addEventListener("input", (e) => {
+        converterValue = parseInt(e.target.value);
+        updateConverterUI();
       });
     }
 
-    if (rotateWheelBtn) {
-      rotateWheelBtn.addEventListener("click", () => {
-        let next = currentWheelIndex + 1;
-        if (next > 15) next = 0; // Cycle
-        activateWheelSegment(next);
+    bitSwitches.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const bitIndex = parseInt(btn.dataset.bit);
+        // Toggle bit using XOR
+        converterValue ^= (1 << bitIndex);
+        updateConverterUI();
       });
-    }
+    });
 
-    // Init Logic
-    if (hexTable) buildHexTable();
-    if (hexWheel) initHexWheel();
-    const pvState = { digits: [0, 0, 0, 0] };
-    const initPvChart = () => {
-      const render = () => {
-        pvChart.innerHTML = "";
-        let totalSum = 0;
-        pvState.digits.forEach((digitVal, idx) => {
-          const power = 3 - idx;
-          const factor = 16 ** power;
-          const product = digitVal * factor;
-          totalSum += product;
-
-          const col = document.createElement("div");
-          col.className = "pv-col";
-
-          const select = document.createElement("select");
-          select.className = "pv-select";
-          for (let i = 0; i < 16; i++) {
-            const opt = document.createElement("option");
-            opt.value = i;
-            opt.text = hexSymbols[i];
-            if (i === digitVal) opt.selected = true;
-            select.appendChild(opt);
-          }
-          select.addEventListener("change", (e) => {
-            pvState.digits[idx] = parseInt(e.target.value);
-            render();
-          });
-
-          col.innerHTML = `
-              <div class="pv-header">16<sup>${power}</sup> = ${factor}</div>
-            `;
-          col.appendChild(select);
-          col.insertAdjacentHTML(
-            "beforeend",
-            `<div class="pv-result">${hexSymbols[digitVal]} × ${factor} = ${product}</div>`,
-          );
-          pvChart.appendChild(col);
-        });
-        pvTotal.textContent = totalSum;
-      };
-      render();
-    };
-    if (pvChart) initPvChart();
 
     // Level 3 Visualizer
     const bitToggles = document.querySelectorAll(".bit-toggle");
@@ -1362,8 +1498,8 @@
           val += parseInt(btn.dataset.val);
         }
       });
-      nibbleHexOut.textContent = hexSymbols[val];
-      nibbleDecOut.textContent = "dez: " + val;
+      if (nibbleHexOut) nibbleHexOut.textContent = hexSymbols[val];
+      if (nibbleDecOut) nibbleDecOut.textContent = "dez: " + val;
     };
 
     bitToggles.forEach((btn) => {
@@ -1374,16 +1510,30 @@
       });
     });
 
-    // Level 6 Encoder
+    // Level 6 Encoder (Dez -> Hex)
     const decToHexInput = document.getElementById("decToHexInput");
     const decToHexResult = document.getElementById("decToHexResult");
     const decToHexSteps = document.getElementById("decToHexSteps");
 
     const updateDecToHex = () => {
-      const val = parseInt(decToHexInput.value);
-      if (isNaN(val)) return;
+      const raw = decToHexInput.value;
+      const clean = raw.replace(/[^0-9]/g, "");
 
-      decToHexResult.textContent = val.toString(16).toUpperCase();
+      // UX: Feedback for non-numeric input
+      if (raw !== clean) {
+          decToHexInput.classList.add("is-invalid");
+          setTimeout(() => decToHexInput.classList.remove("is-invalid"), 500);
+          decToHexInput.value = clean; // Force clean
+      }
+
+      const val = parseInt(clean);
+      if (isNaN(val)) {
+        if(decToHexResult) decToHexResult.textContent = "?";
+        if(decToHexSteps) decToHexSteps.innerHTML = '<div class="text-muted fst-italic">Bitte eine Zahl eingeben...</div>';
+        return;
+      }
+
+      if(decToHexResult) decToHexResult.textContent = val.toString(16).toUpperCase();
 
       // Division Steps
       let steps = [];
@@ -1398,12 +1548,17 @@
         curr = next;
       }
 
-      decToHexSteps.innerHTML = `<div class="d-flex flex-column gap-2">${steps.join("")}</div>
+      if(decToHexSteps) {
+          decToHexSteps.innerHTML = `<div class="d-flex flex-column gap-2">${steps.join("")}</div>
                                        <div class="mt-3 pt-3 border-top border-secondary text-muted">Reste von unten nach oben lesen!</div>`;
+      }
     };
+
 
     // Init
     if (hexTable) buildHexTable();
+    updateConverterUI();
+    updateNibble();
     if (hexToBinInput) {
       hexToBinInput.addEventListener("input", syncFromHexToBin);
       syncFromHexToBin();
@@ -1420,22 +1575,8 @@
       macInput.addEventListener("input", updateMac);
       updateMac();
     }
-    if (colorInput) {
-      if (colorInput) {
-        colorInput.addEventListener("input", () =>
-          updateColor(colorInput.value, "text"),
-        );
-        colorInput.addEventListener("change", () => {
-          colorInput.value = normalizeHexColor(colorInput.value);
-          updateColor(colorInput.value, "text");
-        });
-        colorPicker.addEventListener("input", () =>
-          updateColor(colorPicker.value, "picker"),
-        );
-        updateColor(colorInput.value, "init");
-      }
-    }
-
+    
+    // Level 6 Encoder Listener
     if (decToHexInput) {
       decToHexInput.addEventListener("input", updateDecToHex);
       updateDecToHex();
@@ -1454,6 +1595,7 @@
         parent
           .querySelectorAll("[data-kc-option]")
           .forEach((b) => b.classList.remove(...styles));
+
         const isCorrect = btn.getAttribute("data-kc-correct") === "1";
         btn.classList.add(isCorrect ? "border-success" : "border-danger");
         btn.classList.add(isCorrect ? "text-success" : "text-danger");
@@ -1462,10 +1604,26 @@
         const explanation =
           btn.getAttribute("data-kc-explain") ||
           (isCorrect ? "Richtig!" : "Nicht ganz.");
-        if (feedback) feedback.innerHTML = explanation;
+        
+        if (feedback) {
+            if (isCorrect) {
+                feedback.innerHTML = `<span class="text-success fw-bold">✓ Richtig!</span> ${explanation}`;
+                // Simple confetti effect
+                if (window.confetti) {
+                    confetti({
+                        particleCount: 100,
+                        spread: 70,
+                        origin: { y: 0.6 },
+                        disableForReducedMotion: true
+                    });
+                }
+            } else {
+                feedback.innerHTML = `<span class="text-danger fw-bold">✗ Leider falsch.</span> ${explanation}`;
+            }
+        }
       });
     });
-    // Navigation Logic (SPA)
+    // Navigation Logic (SPA) with Hash Support
     const sections = [
       "intro",
       "referenz",
@@ -1484,7 +1642,16 @@
       });
       // Show target
       const target = document.getElementById(id);
-      if (target) target.classList.remove("section-hidden");
+      if (target) {
+          target.classList.remove("section-hidden");
+          
+          // Accessibility: Focus on the first heading to announce context change
+          const heading = target.querySelector("h1, h2, h3");
+          if (heading) {
+              heading.setAttribute("tabindex", "-1");
+              heading.focus({ preventScroll: true }); 
+          }
+      }
 
       // Update Nav
       navLinks.forEach((l) => {
@@ -1498,23 +1665,107 @@
 
     navLinks.forEach((link) => {
       link.addEventListener("click", (e) => {
-        e.preventDefault();
+        // Allow default behavior to update URL hash
+        // But we need to intercept to show content manually since we use display:none
+        // e.preventDefault(); // REMOVED to allow hash update
         const id = link.getAttribute("href").substring(1);
         showSection(id);
       });
     });
 
-    // Init: Show Intro
-    showSection("intro");
+    // Init: Check Hash or Show Intro
+    const initHash = window.location.hash.substring(1);
+    if (initHash && sections.includes(initHash)) {
+        showSection(initHash);
+    } else {
+        showSection("intro");
+    }
+
+    // Handle Back/Forward Browser Buttons
+    window.addEventListener("popstate", () => {
+        const hash = window.location.hash.substring(1);
+        if (hash && sections.includes(hash)) {
+            showSection(hash);
+        } else {
+            showSection("intro");
+        }
+    });
+
+    // New Feature: Random Nibble (Chapter 3)
+    const btnRandNibble = document.getElementById("btnRandNibble");
+    if(btnRandNibble) {
+        btnRandNibble.addEventListener("click", () => {
+            const rand = Math.floor(Math.random() * 16);
+            bitToggles.forEach(btn => {
+                const val = parseInt(btn.dataset.val);
+                // Check if bit is set in rand
+                if ((rand & val) === val) {
+                    btn.classList.add("active");
+                    btn.textContent = "1";
+                } else {
+                    btn.classList.remove("active");
+                    btn.textContent = "0";
+                }
+            });
+            updateNibble();
+        });
+    }
+
+    // New Feature: Trainer Mode (Chapter 4)
+    const btnTrainerHex = document.getElementById("btnTrainerHex");
+    const btnTrainerReveal = document.getElementById("btnTrainerReveal");
+    
+    // Toggle Trainer Visuals
+    const setTrainerMode = (isActive) => {
+        if (isActive) {
+           hexToDecOutput.style.color = "transparent";
+           hexToDecSteps.style.opacity = "0"; 
+           btnTrainerReveal.disabled = false;
+           btnTrainerReveal.textContent = "Lösung anzeigen";
+        } else {
+           hexToDecOutput.style.color = "var(--bs-primary)"; // Revert to accent color
+           hexToDecSteps.style.opacity = "1";
+           btnTrainerReveal.disabled = true; 
+        }
+    };
+
+    if (btnTrainerHex && btnTrainerReveal) {
+        btnTrainerHex.addEventListener("click", () => {
+            const maxVal = 255; 
+            const randVal = Math.floor(Math.random() * maxVal);
+            const hexVal = randVal.toString(16).toUpperCase();
+            
+            hexToDecInput.value = hexVal;
+            // Trigger sync
+            document.getElementById("hexToDecInput").dispatchEvent(new Event('input'));
+            
+            setTrainerMode(true); // Hide result
+        });
+
+        btnTrainerReveal.addEventListener("click", () => {
+             setTrainerMode(false); // Show result
+             btnTrainerReveal.textContent = "Gelöst";
+        });
+        
+        // Disable Trainer Mode if user types manually
+        hexToDecInput.addEventListener("input", () => {
+             if(document.activeElement === hexToDecInput) {
+                 setTrainerMode(false);
+             }
+        });
+    }
 
     // Mobile Navigation Logic
     const toggleBtn = document.getElementById("mobileNavToggle");
     const sidebar = document.getElementById("sidebar");
     const overlay = document.getElementById("mobileOverlay");
 
+
     const toggleMenu = () => {
       sidebar.classList.toggle("show");
       overlay.classList.toggle("show");
+      const expanded = sidebar.classList.contains("show");
+      toggleBtn.setAttribute("aria-expanded", expanded);
     };
 
     if (toggleBtn) {
@@ -1524,8 +1775,10 @@
       // Close menu when clicking a link on mobile
       document.querySelectorAll(".sidebar .nav-link").forEach(link => {
         link.addEventListener("click", () => {
-          if (window.innerWidth < 992) {
-            toggleMenu();
+          if (window.innerWidth < 992 && sidebar.classList.contains("show")) {
+             sidebar.classList.remove("show");
+             overlay.classList.remove("show");
+             toggleBtn.setAttribute("aria-expanded", "false");
           }
         });
       });
